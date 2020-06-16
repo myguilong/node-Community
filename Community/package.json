@@ -1,0 +1,27 @@
+{
+  "name": "community",
+  "version": "0.0.1",
+  "description": "社区团购",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-generic-session": "^2.0.4",
+    "koa-redis": "^4.0.1",
+    "koa-router": "^8.0.8",
+    "mongoose": "^5.9.7",
+    "socket.io": "^2.3.0"
+  },
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "koa-jwt": "^3.6.0",
+    "koa-multer": "^1.0.2",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "nodemailer": "^6.4.6"
+  }
+}

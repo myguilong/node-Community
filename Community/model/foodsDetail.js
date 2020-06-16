@@ -1,0 +1,81 @@
+const mongoose  = require('mongoose')
+const Schmea = mongoose.Schema;
+const category = require('./category')
+const foodsDetail = new Schmea({
+   foodsName:{
+       //商品名称
+       type:String,
+       required:true,
+   },
+   foodsCategory:{
+      //所属分类
+      type:mongoose.SchemaTypes.ObjectId,
+      ref:'category'
+   },
+   foodsText:{
+       //商品简介
+       type:String,
+       required:true
+   },
+   foodsPrice:{
+       //商品价格
+       type:String,
+       required:true
+   },
+   foodsOldPrice:{
+    //商品对比价格
+    type:String,
+    required:true
+},
+   foodsBanner:{
+       //商品轮播图
+       type:Array,
+       required:true
+   },
+   foodsSpecifications:{
+       //规格
+       type:String,
+       required:true
+   },
+   foodsDelivery:{
+       //配送时间
+       type:String,
+       required:true
+   },
+   foodsInnerhtml:{
+       type:String
+   },
+   foodsImgList:{
+    type:Array
+   },
+   number:{
+       //商品数量
+       type:Number
+   },
+   buyName:{
+       //商品购买数量
+       type:Number,
+       default:0
+   },
+   form:{
+       //产地
+       type:String,
+       required:true
+   },
+   Supplier:{
+       //商品供应商
+       type:String,
+       required:true
+   },
+   accumulate:{
+       //累积销量
+       type:Number,
+       default:0
+   },
+   hasSpecification:{
+       //是否拥有规格
+       type:Boolean,
+       default:false
+   }
+})
+module.exports = mongoose.model('foodsDetail',foodsDetail)
