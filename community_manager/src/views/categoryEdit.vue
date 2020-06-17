@@ -9,7 +9,7 @@
     <Row>
       <Col span="6">
         是否添加在首页:
-        <i-Switch v-model="ishow" >
+        <i-Switch v-model="ishow">
           <span slot="open">是</span>
           <span slot="close">否</span>
         </i-Switch>
@@ -106,21 +106,37 @@ export default {
         data.append("isPopular", this.isPopular);
         data.append("showInIndex", this.ishow);
         data.append("id", this.id);
-        if(this.file) 
-         {
-             //如果你传了文件
-             data.append("icon", this.file)
-         }else{
-             //如果没有去上传文件 就使用原来的图片
-             data.append('oldImg',this.showImg.split('/')[this.showImg.split('/').length-1])
-         }
-         let result = await this.axios.post(`${this.host}/category/update`,data)
-         const {data:{code,msg}} = result
-          if(code==0){
-             this.$Message.success('编辑成功');
-          }else{
-             this.$Message.success('编辑失败');
-          }
+        if (this.file) {
+          //如果你传了文件
+          data.append("icon", this.file);
+        } else {
+          //如果没有去上传文件 就使用原来的图片
+          data.append(
+            "oldImg",
+            this.showImg.split("/")[this.showImg.split("/").length - 1]
+          );
+        }
+        let result = await this.axios.post(
+          `${this.host}/category/update`,
+          data
+        );
+        const {
+          data: { code, msg }
+        } = result;
+        if (code == 0) {
+          this.$Message.success("编辑成功");
+          this.file = null;
+          this.name = "";
+          this.category = "";
+          this.showImg = "";
+          this.isPopular = false;
+          this.showInIndex = false;
+          this.$router.push({
+            path: "/main/categoryList"
+          });
+        } else {
+          this.$Message.success("编辑失败");
+        }
       } else {
         //创建分类
         let data = new FormData();
@@ -144,12 +160,12 @@ export default {
           this.$Message.error(msg);
         } else {
           this.$Message.success(msg);
-          this.file = null
-          this.name = ""
-          this.category = ""
-          this.showImg = ""
-          this.isPopular = false
-          this.showInIndex = false
+          this.file = null;
+          this.name = "";
+          this.category = "";
+          this.showImg = "";
+          this.isPopular = false;
+          this.showInIndex = false;
           this.$router.push({
             path: "/main/categoryList"
           });

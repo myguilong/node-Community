@@ -8,6 +8,10 @@ const managerUser = new Schema({
     password:{
         type:String,
         required:true
+    },
+    registerTime:{
+        type:Date,
+        default:Date.now
     }
 })
 module.exports = mongoose.model('managerUser',managerUser)

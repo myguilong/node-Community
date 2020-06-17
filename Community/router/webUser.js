@@ -82,5 +82,33 @@ module.exports = (app)=>{
             data:ctx.state
         }
     })
+    webUser.get('/list',async ctx=>{
+        let {pageNum} = ctx.query;
+        let res = await new Promise((resolve, reject) => {
+            user.countDocuments({},(err,count)=>{
+                let page = Math.ceil(count/8)
+                if(pageNum>page){
+                    resolve({is:false})
+                }else{
+                    user.find().skip((pageNum-1)*8).limit(8).exec((err,doc)=>{
+                        resolve({is:true,doc,allLength:count})
+                    })
+                }
+            })
+        })
+        const {is,doc,allLength} = res
+        is?ctx.body = {
+            msg:'查询成功',
+            code:0,
+            data:{
+                arr:doc,
+                allLength,
+                msg:'查询成功'
+            }
+        }:ctx.body = {
+            code:-1,
+            msg:'获取失败'
+        }
+    })
     app.use(webUser.routes()).use(webUser.allowedMethods())
 }

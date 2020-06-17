@@ -17,7 +17,7 @@
         <Sider hide-trigger>
           <Row>
             <Col span="8">
-              <Menu :theme="theme2" :open-names="['1','2','3']" :active-name="nowPath">
+              <Menu :theme="theme2" accordion   :active-name="nowPath">
                 <Submenu name="1">
                   <template slot="title">
                     <Icon type="ios-paper" />商城管理
@@ -32,8 +32,8 @@
                   <template slot="title">
                     <Icon type="ios-people" />社区管理
                   </template>
-                    <MenuItem name="/main/leaderManager" to="/main/leaderManager">团长管理</MenuItem>
-                    <MenuItem name="/main/leaderApply" to="/main/leaderApply">团长申请列表</MenuItem>
+                  <MenuItem name="/main/leaderManager" to="/main/leaderManager">团长管理</MenuItem>
+                  <MenuItem name="/main/leaderApply" to="/main/leaderApply">团长申请列表</MenuItem>
                 </Submenu>
                 <Submenu name="3">
                   <template slot="title">
@@ -51,12 +51,19 @@
                 </Submenu>
                 <Submenu name="7">
                   <template slot="title">
-                    <Icon type="ios-stats" />专场
+                    <Icon type="ios-stats" />专场  
                   </template>
                   <MenuGroup title="设置">
                     <MenuItem name="3-1">专场设置</MenuItem>
                     <MenuItem name="3-1">提现</MenuItem>
                   </MenuGroup>
+                </Submenu>
+                <Submenu name="8">
+                  <template slot="title">
+                    <Icon type="ios-stats" />设置
+                  </template>
+                  <MenuItem name="/main/userManagerList" to="/main/userManagerList">系统用户列表</MenuItem>
+                  <MenuItem name="/main/userList" to="/main/userList">客户列表</MenuItem>
                 </Submenu>
                 <Submenu name="4">
                   <template slot="title">
@@ -96,12 +103,10 @@
               >{{item.name}}</Tag>
             </div>
             <div class="routerView">
-           
-            <!-- <Tag>标签一</Tag>
+              <!-- <Tag>标签一</Tag>
             <Tag>标签二</Tag>
-            <Tag v-if="show" closable @on-close="handleClose">分类管理</Tag>-->
-            <router-view></router-view>
-               
+              <Tag v-if="show" closable @on-close="handleClose">分类管理</Tag>-->
+              <router-view></router-view>
             </div>
           </div>
         </Content>
@@ -125,11 +130,10 @@ export default {
     };
   },
   mounted() {
-    //获取当前的路由，如果保存的信息没有当前路由在信息中生成当前路由      
-    if(this.$route.fullPath!='/'){
-      console.log(this.$route.fullPath)
-         this.pageArr.push(this.$route);
-          this.nowPath = this.$route.fullPath;
+    //获取当前的路由，如果保存的信息没有当前路由在信息中生成当前路由
+    if (this.$route.fullPath != "/") {
+      this.pageArr.push(this.$route);
+      this.nowPath = this.$route.fullPath;
     }
   },
   methods: {
@@ -193,9 +197,8 @@ export default {
   min-width: 0;
 }
 .visTop {
-
 }
-.routerView{
+.routerView {
   padding-top: 20px;
 }
 </style>

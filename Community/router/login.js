@@ -128,6 +128,15 @@ module.exports = (app) =>{
          data:ctx.state.name
        }
     })
+    login.get('/list',async ctx=>{
+       //返回系统注册人员列表
+       let res = await managerUser.find();
+       console.log(res)
+       ctx.body = {
+         code:0,
+         data:res
+       }
+    })
     app.use(login.routes()).use(login.allowedMethods())
     
 }

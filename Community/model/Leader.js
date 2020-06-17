@@ -35,6 +35,10 @@ const leader = new Schema({
        //审核
         type:Boolean,
         default:false
+    },
+    registerTime:{
+        type:Date,
+        default:Date.now
     }
 
 })

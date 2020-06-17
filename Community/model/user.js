@@ -25,6 +25,10 @@ const user = new Schema({
    headerInfo:{
        type:mongoose.SchemaTypes.ObjectId,
        ref:'leader'
+   },
+   registerTime:{
+       type:Date,
+       default:Date.now
    }
 
 

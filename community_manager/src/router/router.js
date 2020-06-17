@@ -11,6 +11,8 @@ import adList from '../views/adList.vue'
 import leaderManager from '../views/leaderManager.vue'
 import leaderApply from '../views/leaderApply.vue'
 import mapLocation from '../views/mapLocation.vue'
+import userManagerList from '../views/userManageList.vue'
+import userList from '../views/userList.vue'
 Vue.use(VueRouter)
 export default new VueRouter({
     mode:'hash',
@@ -79,9 +81,19 @@ export default new VueRouter({
                       component:leaderApply
                   },
                   {
+                      path:'/main/userManagerList',
+                      name:'系统管理员列表',
+                      component:userManagerList
+                  },
+                  {
                       path:'/main/mapLocation',
                       name:'地图定位',
                       component:mapLocation
+                  },
+                  {
+                      path:'/main/userList',
+                      name:'用户列表',
+                      component:userList
                   }
               ]
           },
