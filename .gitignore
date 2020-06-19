@@ -2,7 +2,8 @@
 node_modules
 /dist
 public
-.jpg
+config.js
+1.jpg
 .png
 .jiff
 .jfif

@@ -26,6 +26,14 @@ export default {
           key: "mail"
         },
         {
+          title: "名称",
+          key: "name"
+        },
+        {
+          title:'可用虚拟金额',
+          key:"money"
+        },
+        {
           title: "注册时间",
           key: "registerTime"
         }
@@ -39,14 +47,21 @@ export default {
   methods: {
     async getManagerList() {
       let res = await this.axios.get("/webUser/list");
-      console.log(res);
       const {
         data: { data }
       } = res;
-      console.log(data);
       this.pageLength = data.allLength
-      
-      this.data = data.arr
+      let arr = data.arr.map(item=>{
+        return {
+          mail:item.mail,
+          money:item.money,
+          name:item.name,
+          registerTime:editTime(item.registerTime),
+          userHeader:item.userHeader,
+          _id:item._id
+        }
+      })
+      this.data = arr
     }
   }
 };

@@ -4,9 +4,9 @@
       <template slot-scope="{ row }" slot="name">
         <strong>{{ row.name }}</strong>
       </template>
-      <template slot-scope="{ row, index }" slot="action">
-        <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">地图位置</Button>
-        <Button type="error" size="small" @click="remove(index)">审核团长</Button>
+      <template slot-scope="{ row, index }" slot="操作">
+        <Button type="primary" size="small" style="margin-right: 5px" @click="showMap(index)">地图位置</Button>
+        <Button type="error" size="small" @click="passLeader(index)">审核团长</Button>
       </template>
     </Table>
   </div>
@@ -31,7 +31,7 @@ export default {
                     },
                     {
                         title: '操作',
-                        slot: 'action',
+                        slot: '操作',
                         width: 300,
                         align: 'center'
                     }
@@ -42,13 +42,31 @@ export default {
     };
   },
   mounted() {
-      this.getApply()
+      this.getApply();
   },
   methods: {
     async getApply(){
       //团长申请列表
       let res = await this.axios.get('/leader/apply')
-      console.log(res)
+      const {data:{data}} = res
+      this.data6 = data
+    },
+    showMap(index){
+         let location = this.data6[index].location
+         let lng = location[0]
+         let lat = location[1]
+         this.$router.push({
+           path:`/main/mapLocation?lng=${lng}&lat=${lat}`
+         })
+    },
+    async passLeader(index){
+        const {_id:id} = this.data6[index]
+        // console.log(id)
+        let res = await this.axios.post('/leader/passLeader',{id})
+        const {data} = res
+        console.log(data)
+          this.$Notice.open({title: '审核成功'});
+          this.getApply();
     }
   }
 };

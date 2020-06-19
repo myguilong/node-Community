@@ -33,7 +33,7 @@ module.exports = (app)=>{
                     },
                     distanceField:'distance',
                     spherical:true,
-                    maxDistance:10000
+                    maxDistance:1000000000
                 }
             }
         ])
@@ -43,7 +43,7 @@ module.exports = (app)=>{
                 address:item.address,
                 headImg:item.headImg,
                 city:item.city,
-                phone:phone,
+                phone:item.phone,
                 distance:item.distance>1000?(Math.round(item.distance/100)/10).toFixed(1)+'公里':item.distance+'米'
             }
         })
@@ -54,11 +54,43 @@ module.exports = (app)=>{
     })
     router.post('/create',async ctx=>{
         //需要接收用户表的团长信息
+        //还需要判断是否已经有申请了
         const {name,address,longitude,latitude,asaddress,phone,userId} = ctx.request.body
-        await  leader.create({name,address,phone,asaddress,location:[longitude,latitude],userId})
+        let arr = await leader.find({
+            userId
+        })
+        if(arr.length!=0){
+            ctx.body = {
+                code:-1,
+                msg:'当前已经提交过申请不能再提交'
+            }
+        }else{
+            await  leader.create({name,address,phone,asaddress,location:[longitude,latitude],userId})
+            ctx.body = {
+                msg:"提交申请团长成功,待审核",
+                code:0
+            }
+        }
+    })
+    router.post('/passLeader',async ctx=>{
+         //筛选通过团长
+         const { id } = ctx.request.body
+         await leader.findByIdAndUpdate(id,{
+             isNow:true
+         })
+         ctx.body={
+             code:0,
+             msg:'筛选成功'
+         }
+    })
+    router.post('/revoke',async ctx=>{
+        const {id} = ctx.request.body
+        await leader.findByIdAndUpdate(id,{
+            isNow:false
+        })
         ctx.body = {
-            msg:"提交申请团长成功,待审核",
-            code:0
+            code:0,
+            msg:'撤销成功'
         }
     })
     app.use(router.routes()).use(router.allowedMethods())

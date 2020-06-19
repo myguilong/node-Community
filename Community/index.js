@@ -52,7 +52,7 @@ app.use((ctx, next) => {
 app.use(koajwt({
     secret: 'my_token'
 }).unless({
-path: [/\/login\/*/,/\/category\/list/,/^\/uploads/,/\/foods\/list/,/\/foods\/getSpec/,/\/foods\/detail/,/\/webUser\/register/]
+path: [/\/login\/*/,/\/category\/list/,/^\/uploads/,/\/foods\/list/,/\/foods\/getSpec/,/\/foods\/detail/,/\/webUser\/register/,/\/leader\/nearLeader/]
 // path: [/\/*/]
 }));
 

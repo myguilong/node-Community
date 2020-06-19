@@ -94,6 +94,11 @@ export default new VueRouter({
                       path:'/main/userList',
                       name:'用户列表',
                       component:userList
+                  },
+                  {
+                      path:'/main/mapLocation',
+                      name:'地图定位',
+                      component:mapLocation
                   }
               ]
           },

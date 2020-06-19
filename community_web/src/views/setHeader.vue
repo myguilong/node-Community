@@ -55,7 +55,7 @@
             mapaddress(){
                 //缓存本页数据
                this.$router.push({
-                   path:'/mapLocation'
+                   path:'/mapLocation?mode=set'
                })
             },
            async sumbit(){
@@ -65,7 +65,8 @@
                 let address = this.distcaddress
                 let userId = this.$store.state.userData._id
                 let asaddress = this.asaddress
-                let res =await this.axios.post('/leader/create',{ asaddress,longitude,latitude,name,address,userId})
+                let phone = this.phone
+                let res =await this.axios.post('/leader/create',{ asaddress,longitude,latitude,name,address,userId,phone})
                 console.log(res)
                 const {data:{msg,code}} = res
                 if(code==0){

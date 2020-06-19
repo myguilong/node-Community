@@ -14,10 +14,10 @@ module.exports={
             return 'smtp.qq.com'
         },
         get user(){
-            return ''
+            return '1360747193@qq.com'
         },
         get pass(){
-            return ''
+            return 'bmpkikmtmuyiggcg'
         },
         get code(){
             //生成验证码

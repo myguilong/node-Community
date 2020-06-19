@@ -9,7 +9,6 @@ module.exports = (app) =>{
     const jwt = require('jsonwebtoken');
     const koaJwt = require('koa-jwt')({secret})
     let Store = new Redis().client;
- 
     let login = new router({
         prefix:'/login'
     })
@@ -80,9 +79,9 @@ module.exports = (app) =>{
         from: `"认证邮件" <${config.smtp.user}>`,
         to: ko.email,
         subject: '注册码',
-        html: `您的邀请码是${ko.code}`
+        html: `<h1>您的邀请码是${ko.code}</h1>`
       }
-      await transporter.sendMail(mailOptions, (error, next) => {
+        await transporter.sendMail(mailOptions, (error, next) => {
         if (error) {
           return console.log(error)
         } else {

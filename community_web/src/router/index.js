@@ -84,6 +84,11 @@ const routes = [
             isKeep: false
         },
         component:()=>import('../views/mapLocation')
+    },
+    {
+        path:'/selectLeader',
+        name:'选择收货团长',
+        component:()=>import('../views/selectLeader.vue')
     }
 ]
 const router = new VueRouter({routes})

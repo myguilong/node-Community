@@ -37,7 +37,7 @@ export default {
       async getManagerList(){
          let res = await  this.axios.get('/login/list')
          const {data:{data}} = res
-         console.log(data)
+        
          let arr = data.map(item=>{
              return {
                  mail:item.mail,

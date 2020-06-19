@@ -97,7 +97,6 @@ export default {
                 })
             },
             editCategory(row){
-               console.log(row)
                this.$router.push({
                    path:`/main/categoryEdit/${row._id}`
                })
