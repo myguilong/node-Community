@@ -4,14 +4,14 @@
     <van-row style="background: white;border-radius: 10px">
       <van-col span="5">
         <div class="imgWrap">
-          <van-image round width="50px" height="50px" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+          <van-image round width="50px" height="50px" :src="leaderHeader" />
         </div>
       </van-col>
       <van-col span="12">
         <div class="headerInfo">
-          <div>菜鸟小蓝(亚索)</div>
+          <div>{{selectLeader.name}}</div>
           <div>
-            <van-icon name="location-o" />云山诗意
+            <van-icon name="location-o" />{{selectLeader.address}}
           </div>
         </div>
       </van-col>
@@ -26,7 +26,7 @@
           <div>
             <van-icon name="manager-o" />
           </div>
-          <div>附近团长</div>
+          <div @click="$router.push({path:'/selectLeader'})">附近团长</div>
         </div>
       </van-col>
     </van-row>
@@ -191,7 +191,9 @@ export default {
       specNumber: 1,
       isPopularCategory: [],
       showSpec: false,
-      parentData: {}
+      parentData: {},
+      selectLeader:{},
+      leaderHeader:'',
     };
   },
   mounted() {
@@ -203,9 +205,11 @@ export default {
        let lng = location.split(',')[0];
        let lat = location.split(',')[1];
        let selectLeader = localStorage.getItem('selectLeader')
-    //    this.getNearByLeader(lng,lat);
        if(selectLeader){
+            selectLeader = JSON.parse(selectLeader);
             console.log(selectLeader)
+            this.selectLeader = selectLeader
+            this.leaderHeader = this.host+'/uploads/userHead/'+selectLeader.userId.userHeader
        }else{
           this.$router.push({
               path:'/selectLeader'

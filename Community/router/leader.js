@@ -22,7 +22,7 @@ module.exports = (app)=>{
     })
     router.get('/nearLeader',async ctx=>{
         const {longitude,latitude} = ctx.query
-        const res = await leader.aggregate([
+        let res = await leader.aggregate([
             {
                 $geoNear:{
                     near:{
@@ -37,14 +37,20 @@ module.exports = (app)=>{
                 }
             }
         ])
+        res = await leader.populate(res,{"path":'userId'})
         let arr = res.map(item=>{
             return {
                 name:item.name,
                 address:item.address,
-                headImg:item.headImg,
-                city:item.city,
+                userId:{
+                    mail:item.userId.mail,
+                    name:item.userId.name,
+                    userHeader:item.userId.userHeader,
+                    _id:item.userId._id
+                },
                 phone:item.phone,
-                distance:item.distance>1000?(Math.round(item.distance/100)/10).toFixed(1)+'公里':item.distance+'米'
+                distance:item.distance>1000?(Math.round(item.distance/100)/10).toFixed(1)+'公里':Math.floor(item.distance)+'米',
+                _id:item._id,
             }
         })
         ctx.body = {

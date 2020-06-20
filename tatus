@@ -1,0 +1,36 @@
+[33mcommit 0af983eda7e3a6beb57be6e4037c04e92ae1ab9d[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: myguilong <2687544389@qq.com>
+Date:   Sat Jun 20 17:06:15 2020 +0800
+
+    修复管理系统定位问题，客户端选择团长数据
+
+[33mcommit 791301b243d8573c70aa09cf28312edc8f11c0bd[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: myguilong <2687544389@qq.com>
+Date:   Fri Jun 19 17:56:53 2020 +0800
+
+    优化管理系统登录界面,增加团长审批等功能
+
+[33mcommit 3b583f8af35fb976eb9639189736798acbe5a4e3[m
+Merge: 5f318aa 0db4683
+Author: myguilong <2687544389@qq.com>
+Date:   Wed Jun 17 14:54:04 2020 +0800
+
+    Merge branch 'master' of https://github.com/myguilong/node-Community
+
+[33mcommit 5f318aa727ecef6bdf2d48ffe22c9e9035402a62[m
+Author: myguilong <2687544389@qq.com>
+Date:   Wed Jun 17 14:50:13 2020 +0800
+
+    修复分类编辑，编辑错误的问题，增加显示系统用户列表
+
+[33mcommit 0db468353bb9d73cb4b4118974e6df3c2132b54b[m
+Author: myguilong <31694942+myguilong@users.noreply.github.com>
+Date:   Tue Jun 16 17:55:28 2020 +0800
+
+    Update config.js
+
+[33mcommit 51cdec4a0196a9d1774ce10adb044c52da7e7650[m
+Author: myguilong <2687544389@qq.com>
+Date:   Tue Jun 16 17:44:16 2020 +0800
+
+    初始化顶部导航

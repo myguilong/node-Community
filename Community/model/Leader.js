@@ -39,6 +39,10 @@ const leader = new Schema({
     registerTime:{
         type:Date,
         default:Date.now
+    },
+    commission:{
+        type:Number,
+        default:0
     }
 
 })
