@@ -1,25 +1,25 @@
 <template>
-     <div class="cartItem">
+     <div class="cartItem" v-if="item.foods">
           <van-row>
               <van-col span="3">
                   <v-center>
-                      <van-checkbox v-model="isCheck" icon-size="24px"></van-checkbox>
+                      <van-checkbox @click="changeNowCheck" v-model="isCheck" icon-size="24px"></van-checkbox>
                   </v-center>
               </van-col>
               <van-col span="5">
                   <v-center>
-                     <img :src="host+'/uploads/foodsDetail/'+item.foodsBanner[0]" alt=""/>
+                     <img :src="host+'/uploads/foodsDetail/'+item.foods.foodsBanner[0]" alt=""/>
                   </v-center>
               </van-col>
               <van-col span="16">
                    <div>
-                       <p class="shopName">{{item.foodsName}}</p>
+                       <p class="shopName">{{item.foods.foodsName}} &nbsp;{{item.foods.foodsSpecifications}}</p>
                        <van-row>
                            <van-col span="5">
-                              <span class="nowMoney">￥{{item.foodsPrice}}</span>
+                              <span class="nowMoney">￥{{item.foods.foodsPrice}}</span>
                            </van-col>
                            <van-col span="5">
-                              <span class="oldMoney">￥{{item.foodsOldPrice}}</span>
+                              <span class="oldMoney">￥{{item.foods.foodsOldPrice}}</span>
                            </van-col>
                            <van-col span="14">
                                <v-center>
@@ -38,14 +38,17 @@
     import VCenter from "../common/vCenter";
     export default {
         name: "cartItem",
-        components: {VCenter},
+        componentiis: {VCenter},
         props: {
-            item: {}
+            item: {},
+            index:{
+                type:Number
+            }
         },
         data() {
             return {
-                isCheck: true,
-                value: 0
+                value: 0,
+                isCheck:true
             }
         },
         mounted() {
@@ -59,7 +62,7 @@
                     forbidClick: true,
                     duration: 0, // 持续展示 toast
                 });
-                const foodsID = this.item._id
+                const foodsID = this.item.foods._id
                 const userID = this.$store.state.userData._id
                 const {data: {code, msg}} = await this.axios.post('/cart/create', {foodsID, userID})
                 //请求增加购物车数量接口
@@ -74,16 +77,16 @@
                     forbidClick: true,
                     duration: 0, // 持续展示 toast
                 });
-                const foodsID = this.item._id
+                const foodsID = this.item.foods._id
                 const userID = this.$store.state.userData._id
                 let {data: {code, msg}} = await this.axios.post('/cart/reduce', {foodsID, userID})
                 this.$toast.clear()
                 this.$emit('removeItem','aaa')
             },
             async removeCartItem(){
-                 const foodsID = this.item._id
+                 const cartfoodsid = this.item._id
                  let userID = this.$store.state.userData._id
-                 const {data} = await this.axios.post('/cart/remove',{userID,foodsID})
+                 const {data} = await this.axios.post('/cart/remove',{userID,cartfoodsid})
                 if(data.code==0){
                      this.$notify({
                          message:'删除成功',
@@ -97,6 +100,9 @@
                     })
                 }
 
+            },
+            changeNowCheck(){
+                this.$emit('changeCheck',this.index)
             }
         }
     }
@@ -113,6 +119,8 @@
      .shopName{
          font-size: 19px;
          padding-bottom: 15px;
+         text-align: left;
+         text-indent: 12px;
      }
      .nowMoney{
          font-size: 17px;

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <van-nav-bar title="商品详情" left-arrow @click-left="onClickLeft"/>
+    <van-nav-bar title="商品详情" left-arrow @click-left="onClickLeft" />
     <div class="swipe">
       <van-swipe :autoplay="3000" style="height: 300px;">
         <van-swipe-item v-for="(item, index) in foodsDetail.foodsBanner" :key="index">
@@ -77,17 +77,21 @@
       </div>
       <div class="detail_text">
         <p>{{foodsDetail.foodsInnerhtml}}</p>
-        <ul>
-           <li v-for="(item, index) in foodsDetail.foodsImgList" :key="index"><img :src="host+'/uploads/foodsDetail/'+item" alt=""></li>
-        </ul>
+
+        <img
+          v-for="(item, index) in foodsDetail.foodsImgList"
+          :key="index"
+          :src="host+'/uploads/foodsDetail/'+item"
+          alt
+        />
       </div>
     </div>
-      <van-goods-action>
-        <van-goods-action-icon icon="shop-o" text="首页" @click="onClickIcon" />
-        <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
-        <van-goods-action-button type="warning" text="加入购物车" @click="onClickButton" />
-        <van-goods-action-button type="danger" text="立即购买" @click="onClickButton" />
-      </van-goods-action>
+    <van-goods-action>
+      <van-goods-action-icon icon="shop-o" text="首页" @click="onClickIcon" />
+      <van-goods-action-icon icon="cart-o" text="购物车" @click="onClickIcon" />
+      <van-goods-action-button type="warning" text="加入购物车" @click="onClickButton" />
+      <van-goods-action-button type="danger" text="立即购买" @click="onClickButton" />
+    </van-goods-action>
   </div>
 </template>
 <script>
@@ -96,38 +100,41 @@ export default {
   name: "foodsDetail",
   data() {
     return {
-      foodsDetail:{
-
-      },
-      foodsSpec:{
-
-      }
+      foodsDetail: {},
+      foodsSpec: {}
     };
   },
-  props:{id:{}},
+  props: { id: {} },
   mounted() {
-    console.log('mounted')
-    this.getFoodsDetail()
+    console.log("mounted");
+    this.getFoodsDetail();
   },
   methods: {
     onClickIcon() {
       Toast("点击图标");
     },
-    onClickButton() {
+    async onClickButton() {
       Toast("点击按钮");
+      //加入购物车
+      console.log(this.foodsDetail)
+      console.log(this.$store.state)
+      // const result = await this.axios.post(`/carts/create`,{
+          
+      // })
     },
-    onClickLeft(){
-        this.$router.go(-1)
+    onClickLeft() {
+      this.$router.go(-1);
     },
-    async getFoodsDetail(){
-     //获取商品详细信息
-      let result = await this.axios.get(`/foods/detail?id=${this.id}`)    
-      const {data:{data,spec}} = result
-      this.foodsDetail = data
-      if(spec!=false){
-         this.foodsSpec = spec
+    async getFoodsDetail() {
+      //获取商品详细信息
+      let result = await this.axios.get(`/foods/detail?id=${this.id}`);
+      const {
+        data: { data, spec }
+      } = result;
+      this.foodsDetail = data;
+      if (spec != false) {
+        this.foodsSpec = spec;
       }
-      
     }
   }
 };
@@ -227,7 +234,13 @@ export default {
   .detail_text {
     font-size: 16px;
     text-align: left;
-    padding-bottom:30px;
+    padding-bottom: 30px;
+    img {
+      width: 100%;
+      display: block;
+      /*第二种方法 个人赞同这一种，因为大部分图片和文字都是垂直居中的*/
+      vertical-align:middle;
+    }
     ul {
       li {
         img {
@@ -239,7 +252,7 @@ export default {
 }
 .set_wrap {
   width: 100%;
-  
+
   height: 200px;
   position: fixed;
   bottom: 0;

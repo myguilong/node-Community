@@ -88,13 +88,19 @@
       <Col :span="15">
         <Button type="success" @click="addSpec" v-show="specData.length==0">添加规格</Button>
         <Row v-for="(item,index) in specData" :key="index" :gutter="16">
-          <Col :span="8">
+          <Col :span="6">
+            <up-img @setSpecImg="setSpecImg"/>
+          </Col>
+          <Col :span="6">
             <Input v-model="item.specName" placeholder="规格名称" />
           </Col>
-          <Col :span="8">
+          <Col :span="3">
             <Input v-model="item.money" placeholder="规格价格" />
           </Col>
-          <Col :span="8">
+          <Col :span="3">
+            <Input v-model="item.number" placeholder="规格库存" />
+          </Col>
+          <Col :span="6">
             <Button type="primary" shape="circle" icon="ios-add-circle-outline" @click="addSpec"></Button>&nbsp;&nbsp;&nbsp;
             <Button
               type="primary"
@@ -164,10 +170,14 @@
 <script>
 import { getCategoryList } from "../utils/request.js";
 import { Mixin } from "../mixins/setData";
+import upImg from '../components/uploadImg'
 export default {
   mixins: [Mixin],
   props: {
     id: {}
+  },
+  components:{
+     upImg
   },
   data() {
     return {
@@ -189,7 +199,8 @@ export default {
       spec: [], //添加规格的数组，根据长度去渲染列表
       specData: [],
       oldBannerShowImg: [],
-      oldDetailShowImg: []
+      oldDetailShowImg: [],
+      specImgList:[]
     };
   },
   async mounted() {
@@ -233,6 +244,9 @@ export default {
     this.categoryList = data;
   },
   methods: {
+    setSpecImg(img){
+       this.specImgList.push(img)
+    },
     deleteSpec(index) {
       this.specData.splice(index, 1);
     },
@@ -298,6 +312,7 @@ export default {
       this.detailFiles.map(item => {
         data.append("detailImg", item);
       });
+      
       if (!this.postTime) {
         this.postTime = this.getDate(1)
       }
@@ -324,6 +339,9 @@ export default {
         this.specData.map(item =>
           data.append("specification", JSON.stringify(item))
         );
+        this.specImgList.map(item=>{
+          data.append('specificationImg',item)
+        })
       }
       try {
         let result = null;

@@ -17,6 +17,7 @@ const routes = [
     path: '/index',
     name: 'index',
     meta:{
+        login:false,
         showMenu:true,
         isKeep:true
       },
@@ -37,7 +38,8 @@ const routes = [
         name: 'category',
         meta:{
             showMenu:true,
-            isKeep:true
+            isKeep:true,
+            login:false
           },
         component: () => import('../views/category.vue')
     },
@@ -46,6 +48,7 @@ const routes = [
         name: 'foodsDetail',
         props: true,
         meta:{
+            login:false,
           isKeep:false
         },
         component: () => import('../views/foodsDetail.vue')
@@ -72,7 +75,8 @@ const routes = [
         name:'申请团长',
         meta:{
             showMenu: false,
-            isKeep: true
+            isKeep: true,
+            login:true
         },
         component:()=>import('../views/setHeader.vue')
     },
@@ -88,6 +92,11 @@ const routes = [
     {
         path:'/selectLeader',
         name:'选择收货团长',
+        meta:{
+            showMenu: false,
+            isKeep: true,
+            login:true
+        },
         component:()=>import('../views/selectLeader.vue')
     }
 ]

@@ -9,15 +9,13 @@ export default {
   components: {
   },
   mounted() {
-     console.log('刷新')
         //首次进入去判断是否有登录
-        this.axios.get(`${this.host}/login/getUser`).then(res=>{
-          console.log(res)
-        })
+        if(this.$route.fullPath!='/login'){
+          this.axios.get(`${this.host}/login/getUser`).then(res=>{console.log(res)})
+        }
   }
 }
 </script>
 <style>
-.allWrap{
-}
+
 </style>

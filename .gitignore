@@ -3,6 +3,8 @@ node_modules
 /dist
 config.js
 1.jpg
+/uploads
+.config.js
 .png
 .jiff
 .jfif

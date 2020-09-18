@@ -2,16 +2,18 @@ module.exports = (app)=>{
     const Router = require('koa-router')
     const carts = require('../model/cart')
     const order = require('../model/order')
+    const foods = require('../model/foodsDetail')
     const cart = new Router({
         prefix:'/cart'
     })
     cart.post('/create',async  ctx=>{
         //创建购物车
-        const {foodsID,userID} = ctx.request.body
+        const {foodsID,userID,fec} = ctx.request.body
         //还需要接收
         //去查询是否存在这个商品
-
-        let res = await  carts.findOne({
+        let foodID = await foods.findById(foodsID)
+        console.log(foodID)
+        let res = await carts.findOne({
             foods:foodsID,userId:userID
         })
 
@@ -43,28 +45,35 @@ module.exports = (app)=>{
         let newArr = arr.map((item, index) => {
 
         })
+        console.log(res)
         ctx.body = {
             code: 0,
-            data: arr
+            data: res
         }
     })
     cart.post('/reduce',async ctx=>{
         const {foodsID,userID} = ctx.request.body
-        let {_id,number} = await  carts.findOne({foods:foodsID,userId:userID})
-        if(number==1){
-            ctx.body = {
-                code:0,
-                msg:'商品数量已经为0'
+        try {
+            let {_id,number} = await  carts.findOne({foods:foodsID,userId:userID})
+            if(number==1){
+                ctx.body = {
+                    code:0,
+                    msg:'商品数量已经为0'
+                }
+            } else {
+                await carts.findByIdAndUpdate(_id, {
+                    number: number - 1
+                })
+                ctx.body = {
+                    code: 0,
+                    msg: '减少成功'
+                }
             }
-        } else {
-            await carts.findByIdAndUpdate(_id, {
-                number: number - 1
-            })
-            ctx.body = {
-                code: 0,
-                msg: '减少成功'
-            }
+        }catch (e) {
+            console.log(e)
         }
+
+
 
     })
     cart.get('/number', async ctx => {
@@ -72,17 +81,18 @@ module.exports = (app)=>{
         const {userId} = ctx.request.body
     })
     cart.post('/remove', async ctx => {
-        const {userID, foodsID} = ctx.request.body
+        const {userID, cartfoodsid} = ctx.request.body
         try {
-            await carts.findOneAndRemove({
-                userId: userID, foods: foodsID
+            let res = await carts.findOneAndRemove({
+                userId: userID, _id: cartfoodsid
             })
+
             ctx.body = {
                 code: 0,
                 msg: '删除成功'
             }
         }catch(e) {
-        
+            console.log(res)
             ctx.body = {
                 code:-1,
                 msg:'删除失败'

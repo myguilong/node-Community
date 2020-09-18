@@ -41,13 +41,13 @@ _axios.interceptors.response.use(
   function(error) {
     let errMsg = `${error}`
     let errCode = errMsg.substring(errMsg.length-3,errMsg.length)
-    let ref = window.location.origin
-    if(errCode=='401'){
-      alert('未登陆或者登陆信息已经过期')
-      location.href = ref+'/#/login'
-    }else{
-      alert('网络错误')
-    }
+    // let ref = window.location.origin
+    // if(errCode=='401'){
+    //   console.log(ref)
+    //   window.location.href = ref+'/#/login'
+    // }else{
+    //   alert('网络错误')
+    // }
     // Do something with response error
     return Promise.reject(error);
   }

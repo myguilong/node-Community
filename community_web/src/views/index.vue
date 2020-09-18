@@ -105,7 +105,7 @@
       </van-tabs>
     </van-sticky>
     <div class="foodsItem">
-      <div class="item" v-for="(item,index) in foodsList" :key="index">
+      <div class="item" v-for="(item,index) in foodsList" :key="index" @click="toFoodDetail(item)">
         <van-row>
           <van-col span="10">
             <img :src="host+'/uploads/foodsDetail/'+item.foodsBanner[0]" alt />
@@ -113,7 +113,7 @@
           <van-col span="14">
             <div
               class="foodsTitle"
-            >{{item.foodsName}}&nbsp;&nbsp;&nbsp;{{parentData.foodsSpecifications}}</div>
+            >{{item.foodsName}}&nbsp;&nbsp;&nbsp;{{item.foodsSpecifications}}</div>
             <div class="smlText">{{item.foodsText}}</div>
             <div class="sendTime">
               <div>送货时间</div>
@@ -134,12 +134,12 @@
                   <button
                     class="addCarts"
                     v-if="!item.hasSpecification"
-                    @click="addToCart(item._id)"
+                    @click.stop="addToCart(item._id)"
                   >+</button>
                   <button
                     class="selectSpec"
                     v-if="item.hasSpecification"
-                    @click="selectSpec(item._id,item)"
+                    @click.stop="selectSpec(item._id,item)"
                   >选规格</button>
                 </van-col>
               </van-row>
@@ -159,13 +159,12 @@
             <img class="popImg" :src="specImg" alt />
           </div>
     </van-popup>-->
-    <spec-show
-      :specShow="showSpec"
-      :specImg="specImg"
-      :parentData="parentData"
-      :specList="specList"
-      @closePop="closePop"
-    ></spec-show>
+      <spec-show
+        :specShow="showSpec"
+        :parentData="parentData"
+        :specList="specList"
+        @closePop="closePop"
+      ></spec-show>
   </div>
 </template>
 <script>
@@ -193,7 +192,7 @@ export default {
       showSpec: false,
       parentData: {},
       selectLeader:{},
-      leaderHeader:'',
+      leaderHeader:''
     };
   },
   mounted() {
@@ -227,6 +226,12 @@ export default {
     }
   },
   methods: {
+    toFoodDetail(item){
+        let id = item._id
+        this.$router.push({
+            path:`/foodsDetail/${id}`
+        })
+    },
     async getCategoryList() {
       let result = await this.axios(`/category/list`);
       //分出热门推荐 和首页的分类
@@ -266,17 +271,19 @@ export default {
       }
     },
     async selectSpec(id, item) {
+      this.showSpec = true;
       const res = await this.axios.get(`/foods/getSpec`, { params: { id } });
+      console.log(res);
       const {
         data: {
-          data: { specifArry }
+          data:specifArry
         }
       } = res;
-      this.specImg = `${this.host}/uploads/foodsDetail/${item.foodsBanner[0]}`;
+      console.log(specifArry)
+      // this.specImg = `${this.host}/uploads/foodsDetail/${item.foodsBanner[0]}`;
       this.parentData = item;
-      this.showSpec = true;
-      let arr = specifArry.map(item => JSON.parse(item));
-      this.specList = arr;
+
+      this.specList = specifArry;
     },
     closePop() {
       this.showSpec = false;
@@ -496,12 +503,13 @@ export default {
     }
 
     .item_bottom {
-      font-size: 12px;
+      font-size: 12px; 
       color: #b1b0af;
       padding: 5px;
     }
 
     .spec {
+      
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <div id="container" :style="{width:'100%',height:'300px'}">
-    <div :style="{width:'100%',height:'300px'}">
+  <div id="container" :style="{width:'100%',height:'600px'}">
+    <div :style="{width:'100%',height:'600px'}">
       <!-- <el-amap vid="amap" :plugin="plugin" class="amap-demo" :center="center">
       </el-amap>-->
     </div>

@@ -131,19 +131,19 @@ export default {
   },
   mounted() {
     //获取当前的路由，如果保存的信息没有当前路由在信息中生成当前路由
-    if (this.$route.fullPath != "/") {
+    if (this.$route.path != "/") {
       this.pageArr.push(this.$route);
-      this.nowPath = this.$route.fullPath;
+      this.nowPath = this.$route.path;
     }
   },
   methods: {
     handleClose(index) {
-      if (this.pageArr[index].fullPath == this.nowPath) {
-        this.$store.commit("deletePageData", this.pageArr[index].fullPath);
+      if (this.pageArr[index].path == this.nowPath) {
+        this.$store.commit("deletePageData", this.pageArr[index].path);
         this.pageArr.splice(index, 1);
         if (this.pageArr.length > 0) {
-          this.nowPath = this.pageArr[0].fullPath;
-          this.$router.push({ path: this.pageArr[0].fullPath });
+          this.nowPath = this.pageArr[0].path;
+          this.$router.push({ path: this.pageArr[0].path });
         } else {
           //返回主页
           this.$router.push({
@@ -154,32 +154,33 @@ export default {
         // console.log(this.pageArr[index])
         let _index = 0;
         this.pageArr.map((item, aindex) => {
-          if (item.fullPath == this.pageArr[index].fullPath) {
+          if (item.path == this.pageArr[index].path) {
             _index = aindex;
           }
         });
-        this.$store.commit("deletePageData", this.pageArr[_index].fullPath);
+        this.$store.commit("deletePageData", this.pageArr[_index].path);
         this.pageArr.splice(_index, 1);
       }
     },
     handleTabRemove() {},
     selectPath(e) {},
     handleClick(index) {
-      this.nowPath = this.pageArr[index].fullPath;
+      this.nowPath = this.pageArr[index].path;
       this.$router.push({
-        path: this.pageArr[index].fullPath
+        path: this.pageArr[index].path
       });
     }
   },
   watch: {
     $route(value) {
+      console.log(value)
       let arr = this.pageArr.filter(item => item.name == value.name);
       if (arr.length != 0) {
-        this.nowPath = value.fullPath;
+        this.nowPath = value.path;
       } else {
-        if (value.fullPath != "/main") {
+        if (value.path != "/main") {
           this.pageArr.push(value);
-          this.nowPath = value.fullPath;
+          this.nowPath = value.path;
         }
       }
     }

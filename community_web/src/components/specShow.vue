@@ -1,23 +1,23 @@
 <template>
     <div>
         <!--        //商品规格组件-->
-        <van-popup v-model="isShowPec" position="bottom" round @click-overlay="closePop">
+        <van-popup v-if="isShowPec" v-model="isShowPec" position="bottom" round @click-overlay="closePop">
             <div class="pop">
                 <div>
-                    <van-row>
+                    <van-row v-if="specList.length">
                         <van-col :span="8">
-                            <img class="popImg" :src="specImg" alt/>
+                            <img  class="popImg" :src="this.host+'/uploads/foodsDetail/'+specList[selectIndex].specImg" alt/>
                         </van-col>
                         <van-col :span="16">
-                            <div class="topTitle">{{parentData.foodsName}} 净虾500g/盒</div>
-                            <div class="money">￥49.9</div>
-                            <div class="kucun">库存247件</div>
+                            <div class="topTitle">{{parentData.foodsName}}</div>
+                            <div class="money">￥{{specList[selectIndex].specPrice}}</div>
+                            <div class="kucun">{{specList[selectIndex].specStock}}库存件</div>
                         </van-col>
                     </van-row>
                 </div>
                 <div class="smillTitle">{{parentData.foodsSpecifications}}</div>
                 <ul class="specList">
-                    <li v-for="(item, index) in specList" :class="[selectSpecContent==index?'active':null]" :key="index"
+                    <li v-for="(item, index) in specList" @click="selectSpecIndex(index)" :class="[selectIndex==index?'active':null]" :key="index"
                     >{{item.specName}}
                     </li>
                 </ul>
@@ -44,7 +44,7 @@
             specShow: {
                 type: Boolean
             },
-            specImg: String,
+            // specImg: String,
             specList: Array,
             parentData: Object
         },
@@ -52,13 +52,30 @@
             return {
                 selectSpecContent: 0,
                 specNumber: 1,
-                isShowPec: false
+                isShowPec: false,
+                selectIndex:0,
+                selectSpec:{},
+                showImg:'',
+                showStock:'',
+                showPrice:'',
+                newSpecist:[]
             }
+        },
+        created() {
+
+        },
+        mounted() {
+
         },
         methods: {
             closePop() {
                 this.$emit('closePop')
+            },
+            selectSpecIndex(index){
+                console.log(index);
+                this.selectIndex = index
             }
+
         },
         watch: {
             specShow(value) {
@@ -67,7 +84,6 @@
         }
     }
 </script>
-
 <style scoped lang="less">
     .pop {
         background: white;
@@ -98,6 +114,7 @@
         .popImg {
             width: 94%;
             margin-left: 2%;
+            height: 90px;
         }
 
         .specList {

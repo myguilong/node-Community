@@ -15,6 +15,11 @@ const carts = new Schema({
     foods: {
         type: mongoose.SchemaTypes.ObjectID,
         ref: "foodsDetail"
+    },
+    Specifications:{
+        //此处储存的是规格,传入索引
+        type:Number
     }
+
 })
 module.exports = mongoose.model('carts', carts)

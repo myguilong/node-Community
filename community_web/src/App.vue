@@ -19,15 +19,30 @@
         cartNum: null
       }
     },
-    mounted() {
-      console.log('mounted')
+    created() {
       let web_userData = localStorage.getItem('web_userData')
       if (web_userData) {
         this.axios.get('/webUser/userInfo').then(res => {
-          const {data: {data: infoData}} = res
-          this.$store.commit('setUserData', infoData.user)
+            const {data: {data: infoData}} = res
+            this.$store.commit('setUserData', infoData.user)
+          this.$nextTick()
+        }).catch(err=>{
+          console.log(err)
+          this.$notify({
+            message:'登录信息已经过期',
+            type:"danger"
+          })
+          setTimeout(()=>{
+            this.$router.push({
+              path:'/login'
+            })
+          },1200)
+
         })
       }
+      },
+    mounted() {
+      console.log('mounted')
     },
     methods: {
       setCart(e) {

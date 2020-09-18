@@ -8,23 +8,23 @@ module.exports = (app)=>{
     const Foods = new Router({
         prefix:"/foods"
     })
-    fs.exists("./public/uploads/foodsDetail", function(exists) {
-         exists?null:fs.mkdir('./public/uploads/foodsDetail',()=>{})
-    });
-    var storage = multer.diskStorage({
+    let hasFolied = fs.existsSync("./public/uploads/foodsDetail")
+    hasFolied?null:fs.mkdir('./public/uploads/foodsDetail',()=>{})
+
+    let storage = multer.diskStorage({
         //文件保存路径
         destination: function (req, file, cb) {
           cb(null, 'public/uploads/foodsDetail')
         },
         //修改文件名称
-        filename: function (req, file, cb) { 
-          var fileFormat = (file.originalname).split(".");  //以点分割成数组，数组的最后一项就是后缀名
-          cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+        filename: function (req, file, cb) {
+          let fileFormat = (file.originalname).split(".");  //以点分割成数组，数组的最后一项就是后缀名
+          cb(null,Date.now().toString() +Math.floor(Math.random()*100).toString()+"." + fileFormat[fileFormat.length - 1]);
         }
       })
       //加载配置
-      var upload = multer({ storage: storage });
-      var cpUpload = upload.fields([{ name: 'banner', maxCount: 5 }, { name: 'detailImg', maxCount: 8 }])
+      let upload = multer({ storage: storage });
+      let cpUpload = upload.fields([{ name: 'banner', maxCount: 5 }, { name: 'detailImg', maxCount: 8 },{name:'specificationImg',maxCount:3}])
       Foods.post('/create',cpUpload,async ctx=>{
           //创建商品
           const {foodsName,foodsText,foodsPrice,foodsCategory,foodsOldPrice,foodsSpecifications,foodsDelivery,foodsInnerhtml,number,buyName,form,Supplier,accumulate,specification:postSpec} = ctx.req.body
@@ -39,11 +39,26 @@ module.exports = (app)=>{
             foodsBanner:bannerImg,foodsImgList:detailImg,
               hasSpecification:postSpec?true:false
           })
+          console.log(createFoodsres)
           if(postSpec){
-              await specification.create({
-                  fromFoodsId:createFoodsres._id,
-                  specifArry:postSpec
+              let speciImgArr = ctx.req.files.specificationImg.map(item=>{
+                  return item.filename
               })
+              let specArr = postSpec.map(item=>JSON.parse(item))
+
+              for(let i=0;i<specArr.length;i++){
+                  await specification.create({
+                      specImg:speciImgArr[i],
+                      specName:specArr[i].specName,
+                      specPrice:specArr[i].money,
+                      specStock:specArr[i].number,
+                      fromFoodsId:createFoodsres._id
+                  })
+              }
+              // await specification.create({
+              //     fromFoodsId:createFoodsres._id,
+              //     specifArry:postSpec
+              // })
           }
           ctx.body = {
             code:0,
@@ -69,6 +84,7 @@ module.exports = (app)=>{
           if(result.hasSpecification){
               //如果这个商品是存在规格的
               let specRes = await specification.findOne({fromFoodsId:result._id})
+
               ctx.body = {
                   code:0,
                   data:result,
@@ -82,7 +98,6 @@ module.exports = (app)=>{
 
             }
           }
-   
       })
      Foods.post('/delete',async ctx=>{
             //先获取所有的商品数据
@@ -107,7 +122,7 @@ module.exports = (app)=>{
     Foods.get('/getSpec',async ctx=>{
         //返回对应商品的规格
         const {id} = ctx.query
-        const res = await specification.findOne({
+        const res = await specification.find({
             fromFoodsId:id
         })
         ctx.body = {
