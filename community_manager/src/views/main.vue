@@ -4,11 +4,12 @@
       <Header>
         <div class="demo-avatar">
           <Row>
-            <Col :span="1">
-              <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+            <Col :span="4" style="color: white;">
+<!--              <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />-->
+             当前用户  {{$store.state.user.userMail}}
             </Col>
             <Col :span="5">
-              <Button type="error">注销</Button>
+              <Button type="error">  注销</Button>
             </Col>
           </Row>
         </div>
@@ -51,7 +52,7 @@
                 </Submenu>
                 <Submenu name="7">
                   <template slot="title">
-                    <Icon type="ios-stats" />专场  
+                    <Icon type="ios-stats" />专场
                   </template>
                   <MenuGroup title="设置">
                     <MenuItem name="3-1">专场设置</MenuItem>
@@ -131,6 +132,7 @@ export default {
   },
   mounted() {
     //获取当前的路由，如果保存的信息没有当前路由在信息中生成当前路由
+    console.log(this.$store.state.user.userMail)
     if (this.$route.path != "/") {
       this.pageArr.push(this.$route);
       this.nowPath = this.$route.path;

@@ -13,101 +13,158 @@ import leaderApply from '../views/leaderApply.vue'
 import mapLocation from '../views/mapLocation.vue'
 import userManagerList from '../views/userManageList.vue'
 import userList from '../views/userList.vue'
+
 Vue.use(VueRouter)
+// 通用页面
+
+export const constRoutes = [
+    {
+        path: "/login",
+        component: () => import("@/views/login"),
+        hidden: true // 导航菜单忽略该项
+    }
+];
+export const asyncRoutes = [
+    {
+        path: "/main",
+        name: "main",
+        component: main,
+        children: [
+            {
+                path: '/main/categoryEdit',
+                name: '添加分类',
+                component: categoryEdit,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/categoryEdit/:id',
+                name: '分类编辑',
+                component: categoryEdit,
+                props: true,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/categoryList',
+                name: "分类列表",
+                component: categoryList,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            }, {
+                path: '/main/foodsEdit',
+                name: '商品添加',
+                component: foodsEdit,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            }, {
+                path: '/main/adBanner',
+                name: '添加广告',
+                component: adBanner,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            }, {
+                path: '/main/adList',
+                name: '广告管理',
+                component: adList,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            }, {
+                path: '/main/foodsEdit/:id',
+                name: '商品编辑',
+                component: foodsEdit,
+                props: true,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            }, {
+                path: '/main/foodsList',
+                name: "商品列表",
+                component: foodsList,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/leaderManager',
+                name: '团长管理',
+                component: leaderManager,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/leaderApply',
+                name: '团长申请',
+                component: leaderApply,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/userManagerList',
+                name: '系统管理员列表',
+                component: userManagerList,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/mapLocation',
+                name: '地图定位',
+                component: mapLocation,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/userList',
+                name: '用户列表',
+                component: userList,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: '/main/mapLocation',
+                name: '地图定位',
+                component: mapLocation,
+                meta: {
+                    // 角色决定将来那些用户可以看到该路由
+                    roles: ['admin', 'editor']
+                }
+            },
+            {
+                path: "/",
+                redirect: {
+                    path: "/main"
+                }
+            }
+
+        ]
+    }
+];
 export default new VueRouter({
     mode:'hash',
-    routes:[
-          {
-            path: "/login",
-            name: "login",
-            component:login,
-            meta: {
-     
-            }
-          },
-          {
-              path:"/main",
-              name:"main",
-              component:main,
-              meta:{
-                  auth:true
-              },
-              children:[
-                  {
-                      path:'/main/categoryEdit',
-                      name:'添加分类',
-                      component:categoryEdit   
-                  },
-                  {
-                    path:'/main/categoryEdit/:id',
-                    name:'分类编辑',
-                    component:categoryEdit,
-                    props:true   
-                },
-                  {
-                      path:'/main/categoryList',
-                      name:"分类列表",
-                      component:categoryList
-                  },{
-                      path:'/main/foodsEdit',
-                      name:'商品添加',
-                      component:foodsEdit
-                  },{
-                    path:'/main/adBanner',
-                    name:'添加广告',
-                    component:adBanner
-                  },{
-                      path:'/main/adList',
-                      name:'广告管理',
-                      component:adList
-                  },{
-                      path:'/main/foodsEdit/:id',
-                      name:'商品编辑',
-                      component:foodsEdit,
-                      props:true
-                  },{
-                      path:'/main/foodsList',
-                      name:"商品列表",
-                      component:foodsList
-                  },
-                  {
-                      path:'/main/leaderManager',
-                      name:'团长管理',
-                      component:leaderManager
-                  },
-                  {
-                      path:'/main/leaderApply',
-                      name:'团长申请',
-                      component:leaderApply
-                  },
-                  {
-                      path:'/main/userManagerList',
-                      name:'系统管理员列表',
-                      component:userManagerList
-                  },
-                  {
-                      path:'/main/mapLocation',
-                      name:'地图定位',
-                      component:mapLocation
-                  },
-                  {
-                      path:'/main/userList',
-                      name:'用户列表',
-                      component:userList
-                  },
-                  {
-                      path:'/main/mapLocation',
-                      name:'地图定位',
-                      component:mapLocation
-                  }
-              ]
-          },
-          {
-              path:"/",
-              redirect:{
-                  path:"/main"
-              }
-          }
+    routes: constRoutes
+});
 
-    ]
-})

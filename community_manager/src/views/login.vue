@@ -162,6 +162,7 @@ export default {
       }
     },
     async signIn() {
+
       if (this.mail == "") {
         this.$Message.error("邮箱为必填");
         return false;
@@ -174,17 +175,14 @@ export default {
         mail: this.mail,
         password: this.password
       };
-      let res = await this.axios.post(`${this.host}/login/signIn`, data);
-      const { data: result } = res;
-      if (result.code != 0) {
-        this.$Message.error(result.msg);
-      } else {
-        localStorage.setItem("user_data", result.data);
-        this.$Message.success(result.msg);
-        this.$router.push({
-          path: "/main"
-        });
-      }
+      this.$store.dispatch('user/sign',{mail: this.mail, password: this.password}).then(()=>{
+          this.$Message.success('登录成功');
+          this.$router.push({
+            path: "/main"
+          });
+      }).catch(()=>{
+        this.$Message.error('用户名或密码错误');
+      })
     },
     toSignIn() {
       this.login = true;

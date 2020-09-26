@@ -32,7 +32,11 @@ export default {
       async removeItem(e){
           this.getCartList()
       },
-      async onSubmit(){},
+      async onSubmit(){
+          console.log(this.checkArr)
+          //勾选的是需要去生成订单的购物车item
+          // this.axios.post('/order/carte')
+      },
       async getCartList(){
           const {data:{data}} =await this.axios.get('/cart/list',{params:{ userID:this.$store.getters.getId }})
           this.cartList = data

@@ -14,14 +14,14 @@ module.exports = (app) =>{
     })
     login.post('/register',async (ctx)=>{
            //后台管理系统注册
-          const {code,mail,password} = ctx.request.body 
+          const {code,mail,password} = ctx.request.body
           const data =await Store.hget(`mail:${mail}`,'code')
           if(data){
               if(data==code){
                    const hash = crypto.createHash('md5');
-                   hash.update('Hello, world!');
-                   let signPassWord = hash.digest(`${password}`);
-                   
+                   hash.update(password);
+                   let signPassWord = hash.digest(`hex`);
+
                    await managerUser.create({
                     mail,password:signPassWord
                    })
@@ -33,7 +33,7 @@ module.exports = (app) =>{
                 ctx.body = {
                     msg:"验证码错误",
                     code:-1
-                } 
+                }
               }
           }else{
               ctx.body = {
@@ -93,16 +93,15 @@ module.exports = (app) =>{
         code: 0,
         msg: '发送成功,可能会有延迟'
       }
-      
+
     })
     login.post('/signIn',async (ctx)=>{
-       const {mail,password} = ctx.request.body 
+       const {mail,password} = ctx.request.body
        const hash = crypto.createHash('md5');
-       hash.update('Hello, world!');
-       let signPassWord = hash.digest(`${password}`);
-       const res = await managerUser.findOne({
-           mail,password:signPassWord
-       })
+       hash.update(password);
+       let signPassWord = hash.digest(`hex`);
+        console.log(signPassWord.toString())
+       const res = await managerUser.findOne({mail,password:signPassWord})
        if(res!==null){
           const token = jwt.sign({
               name:res.mail,
@@ -111,6 +110,7 @@ module.exports = (app) =>{
           ctx.body = {
               code:0,
               data:token,
+              userMail:res.mail,
               msg:'登录成功'
           }
        }else{
@@ -136,6 +136,10 @@ module.exports = (app) =>{
          data:res
        }
     })
+    //获取用户的权限
+    login.get('/permission',koaJwt,async ctx=>{
+        console.log(ctx.state)
+    })
     app.use(login.routes()).use(login.allowedMethods())
-    
+
 }

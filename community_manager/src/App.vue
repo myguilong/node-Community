@@ -9,10 +9,6 @@ export default {
   components: {
   },
   mounted() {
-        //首次进入去判断是否有登录
-        if(this.$route.fullPath!='/login'){
-          this.axios.get(`${this.host}/login/getUser`).then(res=>{console.log(res)})
-        }
   }
 }
 </script>

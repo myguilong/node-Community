@@ -5,12 +5,9 @@ const order = new Schema({
         type:mongoose.SchemaTypes.ObjectID,
         ref:'user'
     },
-    foodsList:[
-        {
-            foods:{type:mongoose.SchemaTypes.ObjectID, ref:"foodsDetail"},
-            number:{type:Number}
-        }
-    ],
+    foodsList:{
+        type:Array
+    },
     Date:{
         type:Date,
         default:Date.now
