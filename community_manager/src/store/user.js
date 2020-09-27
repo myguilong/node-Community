@@ -1,7 +1,8 @@
 import { sign,permission } from '../utils/request'
+import {getToken, setToken, removeToken } from "../utils/auth";
 const state = {
     token: '',
-    roles: [], // 用户角色
+    roles: [] , // 用户角色
     userMail:'' || localStorage.getItem('userMail')
 };
 
@@ -38,15 +39,24 @@ const actions = {
         //获取登录用户的权限
         return new Promise(resolve => {
             permission().then(res=>{
-
+                commit("SET_ROLES", res.data.data);
+                resolve({ roles:res.data.data })
             })
             // setTimeout(() => {
             //     const roles = state.token === "admin" ? ["admin"] : ["editor"];
-            //     commit("SET_ROLES", roles);
+
             //     resolve({ roles });
             // }, 200);
         });
     },
+    resetToken({ commit }) {
+        return new Promise(resolve => {
+            commit("SET_TOKEN", "");
+            commit("SET_ROLES", []);
+            removeToken();
+            resolve();
+        });
+    }
 };
 
 export default {

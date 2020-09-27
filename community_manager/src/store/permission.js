@@ -1,5 +1,4 @@
-import { asyncRoutes, constRoutes } from "@/router";
-console.log(asyncRoutes,constRoutes)
+import { asyncRoutes, constRoutes } from "../router/router";
 /**
  * 根据路由meta.role确定是否当前用户拥有访问权限
  * @roles 用户拥有角色

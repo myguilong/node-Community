@@ -12,8 +12,8 @@
       </template>
       <template slot-scope="{ row, index }" slot="action">
         <Button type="primary" size="small" style="margin-right: 5px" @click="show(index)">查看</Button>
-        <Button type="warning" size="small" style="margin-right: 5px" @click="editCategory(row)">编辑</Button>
-        <Button type="error" size="small" @click="remove(index)">删除</Button>
+        <Button type="warning" size="small" style="margin-right: 5px"  v-has="['admin','editor']" @click="editCategory(row)">编辑</Button>
+        <Button type="error" size="small"  v-has="['admin','editor']" @click="remove(index)">删除</Button>
       </template>
     </Table>
     <Divider />
@@ -53,7 +53,7 @@ export default {
                     }
                 ],
                 data6: [
-        
+
                 ],
                 limit:1,//分类页数
                 hasLimit:0

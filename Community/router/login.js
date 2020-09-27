@@ -139,6 +139,18 @@ module.exports = (app) =>{
     //获取用户的权限
     login.get('/permission',koaJwt,async ctx=>{
         console.log(ctx.state)
+        if(ctx.state.user.name=='2687544389@qq.com'){
+            ctx.body = {
+                code:0,
+                data:['admin','editor']
+            }
+        }else{
+            ctx.body = {
+                code:0,
+                data:['nuser']
+            }
+            //nuser普通游客
+        }
     })
     app.use(login.routes()).use(login.allowedMethods())
 

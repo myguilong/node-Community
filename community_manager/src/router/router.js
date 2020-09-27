@@ -27,11 +27,11 @@ export const constRoutes = [
 export const asyncRoutes = [
     {
         path: "/main",
-        name: "main",
         component: main,
+        redirect:'/main/categoryList',
         children: [
             {
-                path: '/main/categoryEdit',
+                path: 'categoryEdit',
                 name: '添加分类',
                 component: categoryEdit,
                 meta: {
@@ -40,7 +40,7 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/categoryEdit/:id',
+                path: 'categoryEdit/:id',
                 name: '分类编辑',
                 component: categoryEdit,
                 props: true,
@@ -50,15 +50,15 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/categoryList',
+                path: 'categoryList',
                 name: "分类列表",
                 component: categoryList,
                 meta: {
                     // 角色决定将来那些用户可以看到该路由
-                    roles: ['admin', 'editor']
+                    roles: ['admin', 'editor','nuser']
                 }
             }, {
-                path: '/main/foodsEdit',
+                path: 'foodsEdit',
                 name: '商品添加',
                 component: foodsEdit,
                 meta: {
@@ -66,7 +66,7 @@ export const asyncRoutes = [
                     roles: ['admin', 'editor']
                 }
             }, {
-                path: '/main/adBanner',
+                path: 'adBanner',
                 name: '添加广告',
                 component: adBanner,
                 meta: {
@@ -74,7 +74,7 @@ export const asyncRoutes = [
                     roles: ['admin', 'editor']
                 }
             }, {
-                path: '/main/adList',
+                path: 'adList',
                 name: '广告管理',
                 component: adList,
                 meta: {
@@ -82,7 +82,7 @@ export const asyncRoutes = [
                     roles: ['admin', 'editor']
                 }
             }, {
-                path: '/main/foodsEdit/:id',
+                path: 'foodsEdit/:id',
                 name: '商品编辑',
                 component: foodsEdit,
                 props: true,
@@ -91,7 +91,7 @@ export const asyncRoutes = [
                     roles: ['admin', 'editor']
                 }
             }, {
-                path: '/main/foodsList',
+                path: 'foodsList',
                 name: "商品列表",
                 component: foodsList,
                 meta: {
@@ -100,7 +100,7 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/leaderManager',
+                path: 'leaderManager',
                 name: '团长管理',
                 component: leaderManager,
                 meta: {
@@ -109,7 +109,7 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/leaderApply',
+                path: 'leaderApply',
                 name: '团长申请',
                 component: leaderApply,
                 meta: {
@@ -118,7 +118,7 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/userManagerList',
+                path: 'userManagerList',
                 name: '系统管理员列表',
                 component: userManagerList,
                 meta: {
@@ -127,16 +127,7 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/mapLocation',
-                name: '地图定位',
-                component: mapLocation,
-                meta: {
-                    // 角色决定将来那些用户可以看到该路由
-                    roles: ['admin', 'editor']
-                }
-            },
-            {
-                path: '/main/userList',
+                path: 'userList',
                 name: '用户列表',
                 component: userList,
                 meta: {
@@ -145,18 +136,12 @@ export const asyncRoutes = [
                 }
             },
             {
-                path: '/main/mapLocation',
+                path: 'mapLocation',
                 name: '地图定位',
                 component: mapLocation,
                 meta: {
                     // 角色决定将来那些用户可以看到该路由
                     roles: ['admin', 'editor']
-                }
-            },
-            {
-                path: "/",
-                redirect: {
-                    path: "/main"
                 }
             }
 

@@ -178,7 +178,7 @@ export default {
       this.$store.dispatch('user/sign',{mail: this.mail, password: this.password}).then(()=>{
           this.$Message.success('登录成功');
           this.$router.push({
-            path: "/main"
+            path: "/main/categoryList"
           });
       }).catch(()=>{
         this.$Message.error('用户名或密码错误');

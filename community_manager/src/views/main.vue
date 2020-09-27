@@ -6,10 +6,10 @@
           <Row>
             <Col :span="4" style="color: white;">
 <!--              <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />-->
-             当前用户  {{$store.state.user.userMail}}
+             当前用户 {{$store.state.user.userMail}}
             </Col>
             <Col :span="5">
-              <Button type="error">  注销</Button>
+              <Button type="error"> 注销</Button>
             </Col>
           </Row>
         </div>
@@ -23,13 +23,13 @@
                   <template slot="title">
                     <Icon type="ios-paper" />商城管理
                   </template>
-                  <MenuItem name="/main/categoryEdit" to="/main/categoryEdit">添加分类</MenuItem>
+                  <MenuItem name="/main/categoryEdit" v-has="['admin','editor']"  to="/main/categoryEdit">添加分类</MenuItem>
                   <MenuItem name="/main/categoryList" to="/main/categoryList">分类管理</MenuItem>
-                  <MenuItem name="/main/foodsEdit" to="/main/foodsEdit">添加商品</MenuItem>
-                  <MenuItem name="/main/foodsList" to="/main/foodsList">商品编辑</MenuItem>
-                  <MenuItem name="/main/foodsList" to="/main/foodsList">热门栏目编辑</MenuItem>
+                  <MenuItem name="/main/foodsEdit" v-has="['admin','editor']"  to="/main/foodsEdit">添加商品</MenuItem>
+                  <MenuItem name="/main/foodsList" v-has="['admin','editor']"  to="/main/foodsList">商品编辑</MenuItem>
+                  <MenuItem name="/main/foodsList" v-has="['admin','editor']"  to="/main/foodsList">热门栏目编辑</MenuItem>
                 </Submenu>
-                <Submenu name="2">
+                <Submenu v-has="['admin','editor']" name="2">
                   <template slot="title">
                     <Icon type="ios-people" />社区管理
                   </template>
@@ -55,7 +55,7 @@
                     <Icon type="ios-stats" />专场
                   </template>
                   <MenuGroup title="设置">
-                    <MenuItem name="3-1">专场设置</MenuItem>
+                    <MenuItem v-has="['admin','editor']"  name="3-1">专场设置</MenuItem>
                     <MenuItem name="3-1">提现</MenuItem>
                   </MenuGroup>
                 </Submenu>
@@ -63,8 +63,8 @@
                   <template slot="title">
                     <Icon type="ios-stats" />设置
                   </template>
-                  <MenuItem name="/main/userManagerList" to="/main/userManagerList">系统用户列表</MenuItem>
-                  <MenuItem name="/main/userList" to="/main/userList">客户列表</MenuItem>
+                  <MenuItem name="/main/userManagerList" v-has="['admin','editor']"  to="/main/userManagerList">系统用户列表</MenuItem>
+                  <MenuItem name="/main/userList" v-has="['admin','editor']"  to="/main/userList">客户列表</MenuItem>
                 </Submenu>
                 <Submenu name="4">
                   <template slot="title">
@@ -104,9 +104,6 @@
               >{{item.name}}</Tag>
             </div>
             <div class="routerView">
-              <!-- <Tag>标签一</Tag>
-            <Tag>标签二</Tag>
-              <Tag v-if="show" closable @on-close="handleClose">分类管理</Tag>-->
               <router-view></router-view>
             </div>
           </div>
@@ -132,7 +129,6 @@ export default {
   },
   mounted() {
     //获取当前的路由，如果保存的信息没有当前路由在信息中生成当前路由
-    console.log(this.$store.state.user.userMail)
     if (this.$route.path != "/") {
       this.pageArr.push(this.$route);
       this.nowPath = this.$route.path;
