@@ -11,7 +11,7 @@
     "koa-redis": "^4.0.1",
     "koa-router": "^8.0.8",
     "mongoose": "^5.9.7",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "scripts": {
     "dev": "nodemon index.js"
