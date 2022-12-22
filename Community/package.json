@@ -17,7 +17,7 @@
     "dev": "nodemon index.js"
   },
   "dependencies": {
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "koa-jwt": "^3.6.0",
     "koa-multer": "^1.0.2",
     "koa-static": "^5.0.0",
